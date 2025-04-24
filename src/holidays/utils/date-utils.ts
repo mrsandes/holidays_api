@@ -29,7 +29,7 @@ export function verifyMovableHolidayDate(date: string): string | null {
   }
 
   const movableHolidays = [
-    { name: 'carnaval', offset: -42 },
+    { name: 'carnaval', offset: -47 },
     { name: 'sexta-feira-santa', offset: -2 },
     { name: 'corpus-christi', offset: 60 }
   ];
