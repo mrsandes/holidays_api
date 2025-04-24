@@ -1,9 +1,9 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { nanoid } from "nanoid";
+import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { nanoid } from 'nanoid';
 
 @Entity('holidays')
 export class Holiday {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string;
 
   @Column()
@@ -20,4 +20,10 @@ export class Holiday {
 
   @Column({ default: '', nullable: true })
   city?: string;
+
+  @BeforeInsert()
+  generateId() {
+    this.id = `h_${nanoid()}`;
+    
+  }
 }

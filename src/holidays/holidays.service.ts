@@ -27,13 +27,15 @@ export class HolidaysService {
     for (const holiday of holidays) {
       const exists = await this.repository.findOne({ where: { date: holiday.date } });
       if (!exists) {
-        await this.repository.save(holiday);
+        const holidayEntity = this.repository.create(holiday);
+        await this.repository.save(holidayEntity);
       }
     }
   }
 
   async create(dto: CreateHolidayDto) {
-    return this.repository.save(dto);
+    const holidayEntity = this.repository.create(dto);
+    return await this.repository.save(holidayEntity);
   }
 
   async update(id: string, newHoliday: UpdateHolidayDto) {
