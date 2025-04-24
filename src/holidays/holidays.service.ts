@@ -14,14 +14,14 @@ export class HolidaysService {
 
   async onModuleInit() {
     const holidays: Partial<Holiday>[] = [
-      { name: 'Ano Novo', date: '2000-01-01', type: 'nacional', state: '', city: '' },
-      { name: 'Tiradentes', date: '2000-04-21', type: 'nacional', state: '', city: '' },
-      { name: 'Dia do Trabalhador', date: '2000-05-01', type: 'nacional', state: '', city: '' },
-      { name: 'Independência', date: '2000-09-07', type: 'nacional', state: '', city: '' },
-      { name: 'Nossa Senhora Aparecida', date: '2000-10-12', type: 'nacional', state: '', city: '' },
-      { name: 'Finados', date: '2000-11-02', type: 'nacional', state: '', city: '' },
-      { name: 'Proclamação da República', date: '2000-11-15', type: 'nacional', state: '', city: '' },
-      { name: 'Natal', date: '2000-12-25', type: 'nacional', state: '', city: '' },
+      { name: 'Ano Novo', date: '0000-01-01', type: 'nacional', state: '', city: '' },
+      { name: 'Tiradentes', date: '0000-04-21', type: 'nacional', state: '', city: '' },
+      { name: 'Dia do Trabalhador', date: '0000-05-01', type: 'nacional', state: '', city: '' },
+      { name: 'Independência', date: '0000-09-07', type: 'nacional', state: '', city: '' },
+      { name: 'Nossa Senhora Aparecida', date: '0000-10-12', type: 'nacional', state: '', city: '' },
+      { name: 'Finados', date: '0000-11-02', type: 'nacional', state: '', city: '' },
+      { name: 'Proclamação da República', date: '0000-11-15', type: 'nacional', state: '', city: '' },
+      { name: 'Natal', date: '0000-12-25', type: 'nacional', state: '', city: '' },
     ];
 
     for (const holiday of holidays) {

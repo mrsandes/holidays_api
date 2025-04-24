@@ -60,11 +60,11 @@ export function validateDate(date: string, method: 'GET' | 'PUT' | 'DELETE'): st
   }
 
   if (/^\d{2}-\d{2}$/.test(date)) {      
-    return `2000-${date}`;
+    return `0000-${date}`;
   }
 
   if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return `2000-${date.slice(-5)}`
+    return `0000-${date.slice(-5)}`
   }
 
   throw new HttpException('incorrect date format', HttpStatus.BAD_REQUEST);
