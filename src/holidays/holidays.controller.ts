@@ -31,6 +31,10 @@ export class HolidaysController {
         return null;
       }
     } 
+  
+    if (!body.name && !HolidayIsMovable) {
+      throw new HttpException('Data deve ser uma string', HttpStatus.BAD_REQUEST)
+    }
 
     const holidays = await this.holidaysService.findAllByDate(resolvedDate);
 
