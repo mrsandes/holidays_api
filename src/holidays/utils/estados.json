@@ -1,0 +1,110 @@
+[
+  {
+    "codigo": "12",
+    "estado": "AC"
+  },
+  {
+    "codigo": "27",
+    "estado": "AL"
+  },
+  {
+    "codigo": "16",
+    "estado": "AP"
+  },
+  {
+    "codigo": "13",
+    "estado": "AM"
+  },
+  {
+    "codigo": "29",
+    "estado": "BA"
+  },
+  {
+    "codigo": "23",
+    "estado": "CE"
+  },
+  {
+    "codigo": "53",
+    "estado": "DF"
+  },
+  {
+    "codigo": "32",
+    "estado": "ES"
+  },
+  {
+    "codigo": "52",
+    "estado": "GO"
+  },
+  {
+    "codigo": "21",
+    "estado": "MA"
+  },
+  {
+    "codigo": "51",
+    "estado": "MT"
+  },
+  {
+    "codigo": "50",
+    "estado": "MS"
+  },
+  {
+    "codigo": "31",
+    "estado": "MG"
+  },
+  {
+    "codigo": "15",
+    "estado": "PA"
+  },
+  {
+    "codigo": "25",
+    "estado": "PB"
+  },
+  {
+    "codigo": "41",
+    "estado": "PR"
+  },
+  {
+    "codigo": "26",
+    "estado": "PE"
+  },
+  {
+    "codigo": "22",
+    "estado": "PI"
+  },
+  {
+    "codigo": "33",
+    "estado": "RJ"
+  },
+  {
+    "codigo": "24",
+    "estado": "RN"
+  },
+  {
+    "codigo": "43",
+    "estado": "RS"
+  },
+  {
+    "codigo": "11",
+    "estado": "RO"
+  },
+  {
+    "codigo": "14",
+    "estado": "RR"
+  },
+  {
+    "codigo": "42",
+    "estado": "SC"
+  },
+  {
+    "codigo": "35",
+    "estado": "SP"
+  },
+  {
+    "codigo": "28",
+    "estado": "SE"
+  },
+  {
+    "codigo": "17",
+    "estado": "TO"
+  }
+]
