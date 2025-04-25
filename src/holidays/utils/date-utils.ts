@@ -1,5 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+export enum MovableHolidays {
+  CARNAVAL = 'carnaval',
+  CORPUS_CHRISTI = 'corpus-christi',
+  SEXTA_FEIRA_SANTA = 'sexta-feira-santa',
+}
+
+export enum MethodType {
+  GET = 'GET',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
 export function calculateEaster(year: number): Date {
   const a = year % 19;
   const b = Math.floor(year / 100);
@@ -19,19 +31,19 @@ export function calculateEaster(year: number): Date {
   return new Date(year, month - 1, day);
 }
 
+function sameDay(d1: Date, d2: Date) {
+  return d1.toISOString().slice(0, 10) === d2.toISOString().slice(0, 10);
+}
+
 export function verifyMovableHolidayDate(date: string): string | null {
   const holidayDate = new Date(date);
   const year = holidayDate.getFullYear();
-  const easter = calculateEaster(year);
-
-  function sameDay(d1: Date, d2: Date) {
-    return d1.toISOString().slice(0, 10) === d2.toISOString().slice(0, 10);
-  }
+  const easter = calculateEaster(year); 
 
   const movableHolidays = [
-    { name: 'carnaval', offset: -47 },
-    { name: 'sexta-feira-santa', offset: -2 },
-    { name: 'corpus-christi', offset: 60 }
+    { name: MovableHolidays.CARNAVAL, offset: -47 },
+    { name: MovableHolidays.SEXTA_FEIRA_SANTA, offset: -2 },
+    { name: MovableHolidays.CORPUS_CHRISTI, offset: 60 }
   ];
 
   for (const holiday of movableHolidays) {
@@ -46,25 +58,37 @@ export function verifyMovableHolidayDate(date: string): string | null {
   return null;
 }
 
-export function validateDate(date: string, method: 'GET' | 'PUT' | 'DELETE'): string {
-  const movableHolidays = ['carnaval', 'corpus-christi'];
-
-  if (movableHolidays.includes(date)) {
-    if (method === 'PUT' || method === 'DELETE') {
-      return date;
-    } 
-    
-    else {
+export function validateDate(date: string, method: MethodType): { resolvedDate: string, isHolidayMovable: boolean }  {
+  if (date === MovableHolidays.CARNAVAL || date === MovableHolidays.CORPUS_CHRISTI) {
+    if (method === MethodType.GET) {
       throw new HttpException('incorrect date format', HttpStatus.BAD_REQUEST);
-    }
+    }  
+    
+    return {
+      resolvedDate: date,
+      isHolidayMovable: true
+    };
   }
-
+  
+  if (verifyMovableHolidayDate(date)) {
+    return {
+      resolvedDate: date,
+      isHolidayMovable: true
+    };
+  }
+  
   if (/^\d{2}-\d{2}$/.test(date)) {      
-    return `0000-${date}`;
+    return {
+      resolvedDate: `0000-${date}`,
+      isHolidayMovable: false
+    };
   }
 
   if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return `0000-${date.slice(-5)}`
+    return {
+      resolvedDate: `0000-${date.slice(-5)}`,
+      isHolidayMovable: false
+    };
   }
 
   throw new HttpException('incorrect date format', HttpStatus.BAD_REQUEST);

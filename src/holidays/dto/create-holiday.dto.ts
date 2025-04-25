@@ -1,9 +1,9 @@
 import { IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
 
 export enum HolidayType {
-  Nacional = "nacional",
-  Estadual = "estadual",
-  Municipal = "municipal",
+  NACIONAL = "nacional",
+  ESTADUAL = "estadual",
+  MUNICIPAL = "municipal",
 }
 
 export class CreateHolidayDto {

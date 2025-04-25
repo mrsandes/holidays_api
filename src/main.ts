@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { HolidaysModule } from './holidays/holidays.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(HolidaysModule);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
