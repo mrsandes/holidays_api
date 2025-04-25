@@ -7,7 +7,7 @@ const validCities: string[] = municipios.map((row) => row.codigo_ibge);
 
 export function validateCode(code: string) {
   if (!/^\d+$/.test(code)) {
-    throw new HttpException('incorrect code format', HttpStatus.NOT_FOUND);
+    throw new HttpException('incorrect code format', HttpStatus.BAD_REQUEST);
   }
 
   if (code.length === 2 && !validStates.includes(code)) {
@@ -19,6 +19,6 @@ export function validateCode(code: string) {
   }
 
   if (code.length !== 2 && code.length !== 7) {
-    throw new HttpException('incorrect code format', HttpStatus.NOT_FOUND);
+    throw new HttpException('incorrect code format', HttpStatus.BAD_REQUEST);
   }
 }

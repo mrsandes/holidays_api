@@ -4,16 +4,16 @@ import { nanoid } from 'nanoid';
 @Entity('holidays')
 export class Holiday {
   @PrimaryColumn()
-  id: string;
+  id?: string;
 
   @Column()
-  name: string;
+  name?: string;
 
   @Column()
-  type: string;
+  type?: string;
 
   @Column()
-  date: string;
+  date?: string;
 
   @Column({ default: '', nullable: true })
   state?: string;

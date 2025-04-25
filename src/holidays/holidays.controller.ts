@@ -28,7 +28,7 @@ export class HolidaysController {
       }
 
       else {
-        return null;
+        throw new HttpException('Data não é um feriado movel', HttpStatus.BAD_REQUEST)
       }
     } 
   
@@ -60,7 +60,7 @@ export class HolidaysController {
 
       else {
         console.log('municipio ja respeita o feriado móvel');
-        return null;
+        throw new HttpException('Feriado já exxiste no município', HttpStatus.OK);
       }
     }
 
@@ -96,7 +96,9 @@ export class HolidaysController {
       console.log(cityHolidays);
 
       for (const holiday of cityHolidays) {
-        await this.holidaysService.removeById(holiday.id);
+        if (holiday.id) {
+          await this.holidaysService.removeById(holiday.id);
+        }
       }
 
       if (!HolidayExistsInState) {
@@ -106,7 +108,9 @@ export class HolidaysController {
       }
 
       console.log('feriado estadual já existe');
-      return await this.holidaysService.update(HolidayExistsInState.id, newHoliday);
+      if (HolidayExistsInState.id) {
+        return await this.holidaysService.update(HolidayExistsInState.id, newHoliday);
+      }
     }
 
     if (isHolidayMunicipal) {
@@ -124,7 +128,9 @@ export class HolidaysController {
 
       if (HolidayExistsInCity) { 
         console.log('feriado já existe na cidade');
-        return await this.holidaysService.update(HolidayExistsInCity.id, newHoliday);
+        if (HolidayExistsInCity.id) {
+          return await this.holidaysService.update(HolidayExistsInCity.id, newHoliday);
+        }
       }
 
       else if (!HolidayExistsInCity && !HolidayExistsInState) {
@@ -140,7 +146,7 @@ export class HolidaysController {
         
         else {
           console.log('feriado municipal tem mesmo nome que o estadual ou feriado já é municipal');
-          return null;
+          throw new HttpException('Feriado já existe na cidade e no município', HttpStatus.BAD_REQUEST)
         }
       } 
     }
@@ -199,11 +205,13 @@ export class HolidaysController {
     );
   
     for (const holiday of foundHolidays) {
-      listOfHolidays.push({ name: holiday.name});
+      if (holiday.name) {
+        listOfHolidays.push({ name: holiday.name});
+      }
     }
  
     if (listOfHolidays.length === 0) {
-      throw new NotFoundException('Nenhum feriado encontrado');
+      throw new HttpException('Nenhum feriado encontrado', HttpStatus.NOT_FOUND);
     }
 
     else if (listOfHolidays.length === 1) {
@@ -230,7 +238,7 @@ export class HolidaysController {
     const holidays = await this.holidaysService.findAllByDate(resolvedDate);
 
     if (holidays.length === 0) {
-      throw new NotFoundException();
+      throw new HttpException('Nenhum feriado encontrado', HttpStatus.NOT_FOUND)
     }
 
     if (holidays.length === 1 && holidays[0].type === HolidayType.Nacional) {
@@ -245,8 +253,10 @@ export class HolidaysController {
       if (!holiday) {
         throw new HttpException('Nenhum feriado estadual encontrado', HttpStatus.FORBIDDEN)
       }
-  
-      await this.holidaysService.removeById(holiday.id);
+      
+      if (holiday.id) {
+        await this.holidaysService.removeById(holiday.id);
+      }
     }
 
     if (code.length === 7) {
@@ -257,8 +267,10 @@ export class HolidaysController {
       if (!holiday) {
         throw new HttpException('Nenhum feriado municipal encontrado', HttpStatus.FORBIDDEN)
       }
-  
-      await this.holidaysService.removeById(holiday.id);
+      
+      if (holiday.id) {
+        await this.holidaysService.removeById(holiday.id);
+      }
     }
   }
 }
