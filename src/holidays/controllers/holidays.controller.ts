@@ -1,9 +1,9 @@
-import { Controller, Get, Body, Param, Delete, NotFoundException,
+import { Controller, Get, Body, Param, Delete,
   HttpCode, Put, HttpException, HttpStatus,
 } from '@nestjs/common';
 import { HolidaysService } from '../services/holidays.service';
 import { CreateHolidayDto, HolidayType } from '../dto/create-holiday.dto';
-import { MethodType, validateDate, verifyMovableHolidayDate } from '../utils/date-utils';
+import { MethodType } from '../utils/date-utils';
 import { PutHolidayService } from '../services/putHoliday.service';
 import { GetHolidayService } from '../services/getHoliday.service';
 import { RemoveHolidayService } from '../services/removeHoliday.service';
