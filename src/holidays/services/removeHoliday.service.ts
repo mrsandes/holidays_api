@@ -28,7 +28,6 @@ export class RemoveHolidayService {
     }
     
     if (holiday.id) {
-      console.log('Feriado ' + holidayType.valueOf() + ' removido');
       return await this.holidaysService.removeById(holiday.id);
     }
   }

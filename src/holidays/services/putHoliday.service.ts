@@ -18,7 +18,7 @@ export class PutHolidayService {
     );
     
     if (exists || resolvedDate === MovableHolidays.SEXTA_FEIRA_SANTA || resolvedDate === MovableHolidays.PASCOA) {
-      console.log('Feriado já existe no município');
+      // feriado já existe no município
       throw new HttpException('Feriado já existe no município', HttpStatus.OK);
     }
   
@@ -35,7 +35,8 @@ export class PutHolidayService {
     const cityHolidays = holidaysInResolvedDate.filter(
       (h) => h.type === HolidayType.MUNICIPAL && h.state === newHoliday.state && h.name === newHoliday.name,
     );
-  
+    
+    // feriados municipais com mesmo nome removidos
     for (const h of cityHolidays) {
       if (h.id) {
         await this.holidaysService.removeById(h.id);
@@ -43,17 +44,17 @@ export class PutHolidayService {
     }
   
     if (!holidayExistsInState) {
-      console.log('feriado estadual ainda não existe');
+      // feriado estadual ainda não existe
       return await this.holidaysService.create(newHoliday);
     }
   
-    console.log('feriado estadual já existe');
+    // feriado estadual já existe
     return holidayExistsInState.id ? await this.holidaysService.update(holidayExistsInState.id, newHoliday) : undefined;
   }
 
   async handleMunicipalHoliday(holidayExistsInCity: Holiday | undefined, holidayExistsInState: Holiday | undefined, newHoliday: CreateHolidayDto): Promise<Holiday | null | undefined> {
     if (holidayExistsInCity) {
-      console.log('feriado já existe na cidade');
+      // feriado já existe na cidade
       return holidayExistsInCity.id 
         ? await this.holidaysService.update(holidayExistsInCity.id, newHoliday)
         : undefined;
@@ -61,17 +62,17 @@ export class PutHolidayService {
   
     if (holidayExistsInState) {
       if (holidayExistsInState.name !== newHoliday.name) {
-        console.log('feriado estadual com data igual tem nome diferente e feriado não é municipal');
+        // feriado estadual com data igual tem nome diferente e feriado não é municipal
         return await this.holidaysService.create(newHoliday);
       } 
       
       else {
-        console.log('feriado municipal tem mesmo nome que o estadual ou feriado já é municipal');
+        // feriado municipal tem mesmo nome que o estadual ou feriado já é municipal
         throw new HttpException('Feriado já existe no estado', HttpStatus.BAD_REQUEST);
       }
     }
   
-    console.log('feriado não existe na cidade nem no estado');
+    // feriado não existe na cidade nem no estado
     return await this.holidaysService.create(newHoliday);
   }
 }
