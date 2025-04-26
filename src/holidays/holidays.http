@@ -1,8 +1,8 @@
 ### list holidays
-GET http://localhost:3000/holidays
+GET http://localhost:3000/feriados
 
 ### create holiday
-PUT http://localhost:3000/holidays/01/05-01/
+PUT http://localhost:3000/feriados/01/05-01/
 Content-Type: application/json 
 
 {
@@ -10,12 +10,12 @@ Content-Type: application/json
 }
 
 ### delete all holidays
-DELETE http://localhost:3000/holidays/0/0
+DELETE http://localhost:3000/feriados/0/0
 
 ### get holiday
-GET http://localhost:3000/holidays/0111111111/05-01/
+GET http://localhost:3000/feriados/0111111111/05-01/
 
 ### delete holiday
-DELETE http://localhost:3000/holidays/0100000/corpus-christi/
+DELETE http://localhost:3000/feriados/0100000/corpus-christi/
 
 # k6 run -e API_BASE=http://localhost:3000 tests-open.js
