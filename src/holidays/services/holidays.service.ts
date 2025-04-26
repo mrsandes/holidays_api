@@ -16,7 +16,7 @@ export class HolidaysService {
   ) {}
 
   async onModuleInit() {
-    createNationalHolidaysOnInit(this.repository)
+    createNationalHolidaysOnInit(this.repository);
   }
 
   async create(dto: CreateHolidayDto): Promise<Holiday> {
@@ -24,10 +24,13 @@ export class HolidaysService {
     return await this.repository.save(holiday);
   }
 
-  async update(id: string, newHoliday: UpdateHolidayDto): Promise<Holiday | null> {
+  async update(
+    id: string,
+    newHoliday: UpdateHolidayDto,
+  ): Promise<Holiday | null> {
     const holiday = await this.repository.findOneBy({ id });
     if (!holiday) return null;
-  
+
     this.repository.merge(holiday, newHoliday);
     return this.repository.save(holiday);
   }
@@ -52,28 +55,41 @@ export class HolidaysService {
       type: In([HolidayType.ESTADUAL, HolidayType.MUNICIPAL]),
     });
   }
-  
-  async validateParams(code: string, date: string, method: MethodType): Promise<{resolvedDate: string; isHolidayMovable: boolean; holidayType: HolidayType;}> {
+
+  async validateParams(
+    code: string,
+    date: string,
+    method: MethodType,
+  ): Promise<{
+    resolvedDate: string;
+    isHolidayMovable: boolean;
+    holidayType: HolidayType;
+  }> {
     const holidayType = validateCode(code);
     const { resolvedDate, isHolidayMovable } = validateDate(date, method);
 
     return {
       resolvedDate,
       isHolidayMovable,
-      holidayType
-    }
+      holidayType,
+    };
   }
 
-  async validateName(bodyName: string | undefined, resolvedDate: string, isHolidayMovable: boolean) {
+  async validateName(
+    bodyName: string | undefined,
+    resolvedDate: string,
+    isHolidayMovable: boolean,
+  ) {
     let name: string;
 
     if (isHolidayMovable) {
       name = resolvedDate;
-    } 
-    
-    else {  
+    } else {
       if (!bodyName) {
-        throw new HttpException('Name must be a string', HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          'Name must be a string',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       name = bodyName;

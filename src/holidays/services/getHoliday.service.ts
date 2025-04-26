@@ -5,48 +5,60 @@ import { HolidayType } from '../dto/create-holiday.dto';
 
 @Injectable()
 export class GetHolidayService {
-  async getMovableHoliday(code: string, resolvedDate: string, holidays: Holiday[]): Promise<string | undefined> {
+  async getMovableHoliday(
+    code: string,
+    resolvedDate: string,
+    holidays: Holiday[],
+  ): Promise<string | undefined> {
     const nameOfMovableHoliday = verifyMovableHolidayDate(resolvedDate);
 
     const movableHolidays = {
       'corpus-christi': 'Corpus Christi',
-      'carnaval': 'Carnaval',
+      carnaval: 'Carnaval',
       'sexta-feira-santa': 'Sexta-Feira Santa',
-      'pascoa': 'Pascoa',
-    };    
-    
+      pascoa: 'Pascoa',
+    };
+
     if (nameOfMovableHoliday) {
       const exists = holidays.find(
-        (h) => 
-          h.name === nameOfMovableHoliday && 
-          h.city === code  
+        (h) => h.name === nameOfMovableHoliday && h.city === code,
       );
-    
-      if (exists || nameOfMovableHoliday === MovableHolidays.SEXTA_FEIRA_SANTA || MovableHolidays.PASCOA) {       
+
+      if (
+        exists ||
+        nameOfMovableHoliday === MovableHolidays.SEXTA_FEIRA_SANTA ||
+        MovableHolidays.PASCOA
+      ) {
         return movableHolidays[nameOfMovableHoliday];
       }
 
-      throw new HttpException('Feriado móvel não encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        'Feriado móvel não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
-  async getHoliday(holidays: Holiday[], resolvedDate: string, code: string, state: string): Promise<{name: string}[]> {
+  async getHoliday(
+    holidays: Holiday[],
+    resolvedDate: string,
+    code: string,
+    state: string,
+  ): Promise<{ name: string }[]> {
     const listOfHolidays: { name: string }[] = [];
 
     const foundHolidays = holidays.filter(
       (h) =>
         h.date === resolvedDate &&
-        (
-          h.type === HolidayType.NACIONAL ||
+        (h.type === HolidayType.NACIONAL ||
           (h.type === HolidayType.ESTADUAL && h.state === state) ||
-          (h.type === HolidayType.MUNICIPAL && h.city === code)
-        )
+          (h.type === HolidayType.MUNICIPAL && h.city === code)),
     );
-  
+
     foundHolidays.forEach(
-      (holiday) => holiday.name && listOfHolidays.push({ name: holiday.name })
+      (holiday) => holiday.name && listOfHolidays.push({ name: holiday.name }),
     );
-  
-    return listOfHolidays; 
+
+    return listOfHolidays;
   }
 }

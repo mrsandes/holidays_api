@@ -20,5 +20,5 @@ export const deleteHolidayContract = {
     }),
   },
   summary:
-    'Remove um feriado estadual ou municipal de acordo com o código enviado, caso existam feriado \nmunicipal e estadual no mesmo dia, o feriado removido depende do código enviado (código de \nestado remove o estadual, código de município remove o municipal). Não é possível remover \nferiados nacionais.',
+    'Remove um feriado estadual ou municipal de acordo com o código enviado, caso exista feriado \nmunicipal e estadual no mesmo dia, o feriado removido depende do código enviado (código de \nestado remove o estadual, código de município remove o municipal). Não é possível remover \nferiados nacionais.',
 } as const;

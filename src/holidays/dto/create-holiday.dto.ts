@@ -1,10 +1,10 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator';
 
 export enum HolidayType {
-  NACIONAL = "nacional",
-  ESTADUAL = "estadual",
-  MUNICIPAL = "municipal",
+  NACIONAL = 'nacional',
+  ESTADUAL = 'estadual',
+  MUNICIPAL = 'municipal',
 }
 
 export class CreateHolidayDto {
@@ -16,7 +16,7 @@ export class CreateHolidayDto {
   @IsOptional()
   @IsString()
   name?: string;
-  
+
   @ApiPropertyOptional({
     enum: HolidayType,
     description: 'Tipo do feriado',
@@ -34,7 +34,7 @@ export class CreateHolidayDto {
   @IsOptional()
   @IsDateString()
   date?: string;
-  
+
   @ApiPropertyOptional({
     type: [String],
     description: 'Estado do feriado',
@@ -43,7 +43,7 @@ export class CreateHolidayDto {
   @IsOptional()
   @IsString()
   state?: string;
-  
+
   @ApiPropertyOptional({
     type: [String],
     description: 'Cidade do feriado',
@@ -53,4 +53,3 @@ export class CreateHolidayDto {
   @IsString()
   city?: string;
 }
-

@@ -12,10 +12,12 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  
+
   const config = new DocumentBuilder()
     .setTitle('Feriados API')
-    .setDescription('<h3> Adicione, remova e busque feriados dos municípios e estados brasileiros! Acesse a lista de códigos: <a href="https://www.ibge.gov.br/explica/codigos-dos-municipios.php" target="_blank">IBGE</a> </h3>')
+    .setDescription(
+      '<h3> Adicione, remova e busque feriados dos municípios e estados brasileiros! Acesse a lista de códigos: <a href="https://www.ibge.gov.br/explica/codigos-dos-municipios.php" target="_blank">IBGE</a> </h3>',
+    )
     .setVersion('1.0.0')
     .build();
 

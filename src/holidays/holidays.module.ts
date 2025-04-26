@@ -31,7 +31,7 @@ const dbType = process.env.DB_TYPE || 'sqlite';
             database: process.env.DB_NAME || 'holidays.sqlite',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             synchronize: true,
-          }
+          },
     ),
     TypeOrmModule.forFeature([Holiday]),
   ],

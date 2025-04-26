@@ -24,6 +24,5 @@ export class Holiday {
   @BeforeInsert()
   generateId() {
     this.id = `h_${nanoid()}`;
-    
   }
 }
