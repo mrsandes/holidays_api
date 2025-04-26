@@ -47,30 +47,30 @@ const municipalRepetido = JSON.stringify({
 
 export default function () {
   // 1. Não há nenhum feriado na data
-  let res1 = http.put(`${BASE_URL}/holidays/01/${DATE}/`, feriadoNovo, { headers: HEADERS });
+  let res1 = http.put(`${BASE_URL}/feriados/32/${DATE}/`, feriadoNovo, { headers: HEADERS });
   check(res1, { '1. Novo feriado criado': (r) => [200, 201].includes(r.status) });
 
   // 2. Feriado é estadual e não há feriado estadual para o estado
-  let res2 = http.put(`${BASE_URL}/holidays/02/${DATE}/`, estadualMG, { headers: HEADERS });
+  let res2 = http.put(`${BASE_URL}/feriados/31/${DATE}/`, estadualMG, { headers: HEADERS });
   check(res2, { '2. Estadual MG criado': (r) => [200, 201].includes(r.status) });
 
   // 3. Feriado é estadual e já existe um para o estado - atualizar
-  let res3 = http.put(`${BASE_URL}/holidays/01/${DATE}/`, atualizarEstadualRJ, { headers: HEADERS });
+  let res3 = http.put(`${BASE_URL}/feriados/32/${DATE}/`, atualizarEstadualRJ, { headers: HEADERS });
   check(res3, { '3. Estadual RJ atualizado': (r) => [200, 201].includes(r.status) });
 
   // 4. Feriado municipal com nome diferente do estadual - deve ser criado
-  let res4 = http.put(`${BASE_URL}/holidays/0112345/${DATE}/`, municipalNomeDiferente, { headers: HEADERS });
+  let res4 = http.put(`${BASE_URL}/feriados/3200102/${DATE}/`, municipalNomeDiferente, { headers: HEADERS });
   check(res4, { '4. Municipal diferente do estadual criado': (r) => [200, 201].includes(r.status) });
 
   // 5. Feriado municipal com mesmo nome do estadual - ignorado
-  let res5 = http.put(`${BASE_URL}/holidays/0112345/${DATE}/`, municipalMesmoNome, { headers: HEADERS });
+  let res5 = http.put(`${BASE_URL}/feriados/3200102/${DATE}/`, municipalMesmoNome, { headers: HEADERS });
   check(res5, { '5. Municipal igual ao estadual ignorado': (r) => r.status === 200 || r.body === '' });
 
   // 6. Feriado municipal sem estadual e sem municipal igual - criar
-  let res6 = http.put(`${BASE_URL}/holidays/0212345/${DATE}/`, municipalSemEstadual, { headers: HEADERS });
+  let res6 = http.put(`${BASE_URL}/feriados/3100104/${DATE}/`, municipalSemEstadual, { headers: HEADERS });
   check(res6, { '6. Municipal BH criado': (r) => [200, 201].includes(r.status) });
 
   // 7. Repetição do mesmo municipal - ignorar
-  let res7 = http.put(`${BASE_URL}/holidays/0212345/${DATE}/`, municipalRepetido, { headers: HEADERS });
+  let res7 = http.put(`${BASE_URL}/feriados/3100104/${DATE}/`, municipalRepetido, { headers: HEADERS });
   check(res7, { '7. Repetido BH ignorado': (r) => r.status === 200 || r.body === '' });
 }
