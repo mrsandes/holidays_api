@@ -8,28 +8,31 @@ import { GetHolidayService } from './services/getHoliday.service';
 import { PutHolidayService } from './services/putHoliday.service';
 import { RemoveHolidayService } from './services/removeHoliday.service';
 
-dotenv.config()
+dotenv.config();
+
+const dbType = process.env.DB_TYPE || 'sqlite';
 
 @Module({
-    imports: [
-      process.env.DB_TYPE === 'sqlite'
-        ? TypeOrmModule.forRoot({
-          type: 'sqlite',
-            database: 'holidays.sqlite',
+  imports: [
+    TypeOrmModule.forRoot(
+      dbType === 'postgres'
+        ? {
+            type: 'postgres',
+            host: process.env.DB_HOST || 'localhost',
+            port: parseInt(process.env.DB_PORT || '5432', 10),
+            username: process.env.DB_USERNAME || 'user',
+            password: process.env.DB_PASSWORD || '123',
+            database: process.env.DB_NAME || 'holidays',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             synchronize: true,
-          })
-        : TypeOrmModule.forRoot({
-          type: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'user',
-            password: '123',
-            database: 'holidays',
+          }
+        : {
+            type: 'sqlite',
+            database: process.env.DB_NAME || 'holidays.sqlite',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-            synchronize: true, 
-          }),
-
+            synchronize: true,
+          }
+    ),
     TypeOrmModule.forFeature([Holiday]),
   ],
   controllers: [HolidaysController],
