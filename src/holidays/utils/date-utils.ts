@@ -4,6 +4,7 @@ export enum MovableHolidays {
   CARNAVAL = 'carnaval',
   CORPUS_CHRISTI = 'corpus-christi',
   SEXTA_FEIRA_SANTA = 'sexta-feira-santa',
+  PASCOA = 'pascoa',
 }
 
 export enum MethodType {
@@ -43,7 +44,8 @@ export function verifyMovableHolidayDate(date: string): string | null {
   const movableHolidays = [
     { name: MovableHolidays.CARNAVAL, offset: -47 },
     { name: MovableHolidays.SEXTA_FEIRA_SANTA, offset: -2 },
-    { name: MovableHolidays.CORPUS_CHRISTI, offset: 60 }
+    { name: MovableHolidays.CORPUS_CHRISTI, offset: 60 },
+    { name: MovableHolidays.PASCOA, offset: 0 },
   ];
 
   for (const holiday of movableHolidays) {
@@ -59,18 +61,11 @@ export function verifyMovableHolidayDate(date: string): string | null {
 }
 
 export function validateDate(date: string, method: MethodType): { resolvedDate: string, isHolidayMovable: boolean }  {
-  if (date === MovableHolidays.CARNAVAL || date === MovableHolidays.CORPUS_CHRISTI) {
+  if ((Object.values(MovableHolidays) as string[]).includes(date)) {
     if (method === MethodType.GET) {
       throw new HttpException('incorrect date format', HttpStatus.BAD_REQUEST);
     }  
     
-    return {
-      resolvedDate: date,
-      isHolidayMovable: true
-    };
-  }
-  
-  if (verifyMovableHolidayDate(date)) {
     return {
       resolvedDate: date,
       isHolidayMovable: true
@@ -85,6 +80,13 @@ export function validateDate(date: string, method: MethodType): { resolvedDate: 
   }
 
   if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    if (verifyMovableHolidayDate(date)) {
+      return {
+        resolvedDate: date,
+        isHolidayMovable: true
+      };
+    }
+
     return {
       resolvedDate: `0000-${date.slice(-5)}`,
       isHolidayMovable: false

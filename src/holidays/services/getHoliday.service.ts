@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Holiday } from '../entities/holiday.entity';
-import { verifyMovableHolidayDate } from '../utils/date-utils';
+import { MovableHolidays, verifyMovableHolidayDate } from '../utils/date-utils';
 import { HolidayType } from '../dto/create-holiday.dto';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class GetHolidayService {
       'corpus-christi': 'Corpus Christi',
       'carnaval': 'Carnaval',
       'sexta-feira-santa': 'Sexta-Feira Santa',
+      'pascoa': 'Pascoa',
     };    
     
     if (nameOfMovableHoliday) {
@@ -21,7 +22,7 @@ export class GetHolidayService {
           h.city === code  
       );
     
-      if (exists || nameOfMovableHoliday === 'sexta-feira-santa') {       
+      if (exists || nameOfMovableHoliday === MovableHolidays.SEXTA_FEIRA_SANTA || MovableHolidays.PASCOA) {       
         return movableHolidays[nameOfMovableHoliday];
       }
 

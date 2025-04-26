@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateHolidayDto, HolidayType } from '../dto/create-holiday.dto';
 import { UpdateHolidayDto } from '../dto/update-holiday.dto';
 import { Holiday } from '../entities/holiday.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createNationalHolidaysOnInit } from '../seed/nationalHolidays';
 import { validateCode } from '../utils/code-utils';
@@ -44,12 +44,14 @@ export class HolidaysService {
     const holiday = await this.repository.findOneBy({ id });
     if (!holiday) return null;
 
-    return this.repository.remove(holiday);
+    return await this.repository.remove(holiday);
   }
 
   async removeAll(): Promise<DeleteResult> {
-    return this.repository.delete({});
-  } 
+    return await this.repository.delete({
+      type: In([HolidayType.ESTADUAL, HolidayType.MUNICIPAL]),
+    });
+  }
   
   async validateParams(code: string, date: string, method: MethodType): Promise<{resolvedDate: string; isHolidayMovable: boolean; holidayType: HolidayType;}> {
     const holidayType = validateCode(code);
@@ -60,5 +62,23 @@ export class HolidaysService {
       isHolidayMovable,
       holidayType
     }
+  }
+
+  async validateName(bodyName: string | undefined, resolvedDate: string, isHolidayMovable: boolean) {
+    let name: string;
+
+    if (isHolidayMovable) {
+      name = resolvedDate;
+    } 
+    
+    else {  
+      if (!bodyName) {
+        throw new HttpException('Name must be a string', HttpStatus.BAD_REQUEST);
+      }
+
+      name = bodyName;
+    }
+
+    return name;
   }
 }

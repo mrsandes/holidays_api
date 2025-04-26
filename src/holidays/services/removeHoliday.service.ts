@@ -3,22 +3,19 @@ import { Holiday } from '../entities/holiday.entity';
 import { DeleteResult } from 'typeorm';
 import { HolidaysService } from './holidays.service';
 import { HolidayType } from '../dto/create-holiday.dto';
+import { MovableHolidays } from '../utils/date-utils';
 
 @Injectable()
 export class RemoveHolidayService {
   constructor(private readonly holidaysService: HolidaysService) {}
 
-  async removeHoliday(code: string, date: string, holidays: Holiday[], holidayType: HolidayType): Promise<Holiday | DeleteResult | null | undefined> {
-    if (!code && !date ) {
-      return await this.holidaysService.removeAll();
+  async removeHoliday(code: string, date: string, holidays: Holiday[], holidayType: HolidayType): Promise<Holiday | DeleteResult | null | undefined> {   
+    if ((holidays.length === 1 && holidays[0].type === HolidayType.NACIONAL) || (date === MovableHolidays.SEXTA_FEIRA_SANTA || date ===  MovableHolidays.PASCOA)) {
+      throw new HttpException('Não é possível remover um feriado nacional', HttpStatus.FORBIDDEN);
     }
-    
+
     if (holidays.length === 0) {
       throw new HttpException('Nenhum feriado encontrado', HttpStatus.NOT_FOUND);
-    }
-    
-    if (holidays.length === 1 && holidays[0].type === HolidayType.NACIONAL) {
-      throw new HttpException('Não é possível remover um feriado nacional', HttpStatus.FORBIDDEN);
     }
     
     const holiday = holidays.find(h => 

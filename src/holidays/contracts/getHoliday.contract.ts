@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const getHolidayContract = {
   method: 'GET',
-  path: '/holidays/:code_ibge/:date',
+  path: '/feriados/:code/:date',
   pathParams: z.object({
     code: z.string(),
     date: z.string(),

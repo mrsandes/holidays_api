@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const putHolidayContract = {
   method: 'PUT',
-  path: '/holidays/:code/:date',
+  path: '/feriados/:code/:date',
   pathParams: z.object({
     code: z.string(),      
     data: z.string(),

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const deleteHolidayContract = {
   method: 'DELETE',
-  path: '/holidays/:code/:date',
+  path: '/feriados/:code/:date',
   pathParams: z.object({
     code: z.string(),      
     data: z.string(),

@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateHolidayDto, HolidayType } from '../dto/create-holiday.dto';
 import { Holiday } from '../entities/holiday.entity';
 import { HolidaysService } from './holidays.service';
+import { MovableHolidays } from '../utils/date-utils';
 
 @Injectable()
 export class PutHolidayService {
@@ -13,10 +14,10 @@ export class PutHolidayService {
     }
 
     const exists = holidaysInResolvedDate.some(
-      (h) => h.type === HolidayType.MUNICIPAL && h.state === state && h.city === city,
+      (h) => h.city === city,
     );
     
-    if (exists) {
+    if (exists || resolvedDate === MovableHolidays.SEXTA_FEIRA_SANTA || resolvedDate === MovableHolidays.PASCOA) {
       console.log('Feriado já existe no município');
       throw new HttpException('Feriado já existe no município', HttpStatus.OK);
     }
@@ -36,7 +37,9 @@ export class PutHolidayService {
     );
   
     for (const h of cityHolidays) {
-      if (h.id) await this.holidaysService.removeById(h.id);
+      if (h.id) {
+        await this.holidaysService.removeById(h.id);
+      } 
     }
   
     if (!holidayExistsInState) {
@@ -64,7 +67,7 @@ export class PutHolidayService {
       
       else {
         console.log('feriado municipal tem mesmo nome que o estadual ou feriado já é municipal');
-        throw new HttpException('Feriado já existe na cidade e no município', HttpStatus.BAD_REQUEST);
+        throw new HttpException('Feriado já existe no estado', HttpStatus.BAD_REQUEST);
       }
     }
   
